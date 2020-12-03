@@ -12,7 +12,7 @@ const LibrarySong = ({
   const songSelectHandler = () => {
     setCurrentSong(song);
 
-    //add active state
+    //set active state based on song id
     const newSongs = songs.map((song) => {
       if (song.id === id) {
         return {

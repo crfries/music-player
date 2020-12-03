@@ -18,6 +18,8 @@ const Player = ({
   setCurrentSong,
   setSongs,
 }) => {
+
+  //checks the current id to see if its equal to song if. if it is it sets to active
   const activeLibraryHandler = (nextPrev) => {
     const newSongs = songs.map((song) => {
       if (song.id === nextPrev.id) {
@@ -35,7 +37,7 @@ const Player = ({
     setSongs(newSongs);
   };
 
-  //Event Handler
+  //Event Handler - checks if song is playing or paused and sets isPlaying to opposite for play/pause icon
   const playSongHandler = () => {
     if (isPlaying) {
       audioRef.current.pause();
@@ -55,11 +57,13 @@ const Player = ({
     background: `linear-gradient(to right, ${currentSong.color[0]},${currentSong.color[1]})`,
   };
 
+  //sets the drag handler to correct spot its dragged to
   const dragHandler = (e) => {
     audioRef.current.currentTime = e.target.value;
     setSongInfo({ ...songInfo, currentTime: e.target.value });
   };
 
+  //creates a round number to be displayed in the current play time
   const getTime = (time) => {
     return (
       Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
@@ -69,6 +73,8 @@ const Player = ({
   const skipTrackHandler = async (direction) => {
     //getting current index of where the song is
     let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
+    
+    //checks which way track is being skipped and sets cuurentsong and active correctly
     if (direction === "skip-forward") {
       await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
       activeLibraryHandler(songs[(currentIndex + 1) % songs.length]);
